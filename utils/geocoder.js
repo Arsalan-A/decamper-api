@@ -10,7 +10,6 @@ const options = {
   formatter: null,
 };
 
-console.log(`API ${options.apiKey}`);
 const geocoder = NodeGeocoder(options);
 
 module.exports = geocoder;

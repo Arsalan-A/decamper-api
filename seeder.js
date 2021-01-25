@@ -2,9 +2,16 @@ const fs = require('fs');
 const mongoose = require('mongoose');
 const colors = require('colors');
 const dotenv = require('dotenv');
+const readline = require('readline');
 
 //Load env varialbles
 dotenv.config({ path: './config/config.env' });
+
+//Setup Command line input
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
 
 //Load Models
 const Bootcamp = require('./models/Bootcamp');
@@ -48,5 +55,17 @@ const deleteData = async () => {
 if (process.argv[2] === '-i') {
   importData();
 } else if (process.argv[2] === '-d') {
-  deleteData();
+  rl.question(
+    'CAUTION: Are you sure you want to delete all of the data from Database? (y/n) '
+      .red.bold,
+    function (confirmation) {
+      if (confirmation === 'y' || confirmation === 'Y') {
+        deleteData();
+        rl.close();
+      } else {
+        console.log('DELETE REQUEST ENDED'.yellow.bold);
+        process.exit(0);
+      }
+    }
+  );
 }
