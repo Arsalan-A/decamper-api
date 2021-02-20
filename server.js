@@ -1,6 +1,6 @@
 const express = require('express');
 const dotenv = require('dotenv');
-const router = require('./routes/bootcamps');
+
 const morgan = require('morgan');
 const colors = require('colors');
 const errorHandler = require('./middleware/error');
@@ -12,6 +12,10 @@ dotenv.config({ path: './config/config.env' });
 //connect to database
 connectDB();
 
+//Route files
+const bootcamps = require('./routes/bootcamps');
+const courses = require('./routes/courses');
+
 const app = express();
 
 //Body Parser
@@ -22,7 +26,8 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-app.use('/api/v1/bootcamps', router);
+app.use('/api/v1/bootcamps', bootcamps);
+app.use('/api/v1/courses', courses);
 
 app.use(errorHandler);
 
